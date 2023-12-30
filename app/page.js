@@ -2,14 +2,23 @@
 'use client'
 import React, { useState } from 'react';
 import {red} from "next/dist/lib/picocolors";
+const { PDFDocument, rgb } = require('pdf-lib');
 
 const Home = () => {
     const [pdfFile, setPdfFile] = useState(null);
     const [startPage, setStartPage] = useState(1);
 
-    const handleFileChange = (e) => {
-        setPdfFile(e.target.files[0]);
-    };
+    function handleFileChange(e) {
+        let reader = new FileReader();
+        reader.onload = async function(){
+            let pdfBytes = new Uint8Array(reader.result);
+            let pdfDoc = await PDFDocument.load(pdfBytes);
+            setPdfFile(pdfDoc);
+            console.log(`This document has ${pdfDoc.getPageCount()} pages.`);
+            // Now you can manipulate the `pdfDoc`
+        }
+        reader.readAsArrayBuffer(e.target.files[0]);
+    }
 
     const handleStartPageChange = (e) => {
         setStartPage(parseInt(e.target.value) || 1);
@@ -26,25 +35,70 @@ const Home = () => {
         formData.append('startPage', startPage);
 
         try {
-            const response = await fetch('/api/addPageNumbers', {
-                method: 'POST',
-                body: formData,
-            });
+            // const response = await fetch('/api/addPageNumbers', {
+            //     method: 'POST',
+            //     body: formData,
+            // });
 
-            if (response.ok) {
-                const blob = await response.blob();
-                const objectUrl = URL.createObjectURL(blob);
 
-                // Trigger the download
-                const a = document.createElement('a');
-                a.href = objectUrl;
-                a.download = 'output.pdf';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-            } else {
-                console.error('Error:', response.statusText);
+            const arr = ["i", "ii", "iii", "iv", "v", "vi", "vii", "viii", "ix", "x"];
+            // const startPage = startPage || 1;
+            // const pdfDoc = await PDFDocument.load(pdfFile.buffer);
+
+            // load pdfFile into pdfDoc using PDFDocument.load()
+
+            const pdfDoc = pdfFile;
+
+            for (let i = 2; i < startPage - 1; i++) {
+                const page = pdfDoc.getPage(i);
+                const pageNumberText = arr[i - 2];
+                const {width, height} = page.getSize();
+                const fontSize = 12;
+
+                page.drawText(pageNumberText, {
+                    x: width / 2,
+                    y: 25,
+                    size: fontSize,
+                    color: rgb(0, 0, 0),
+                });
             }
+
+            for (let i = 0; i < pdfDoc.getPageCount() - startPage + 1; i++) {
+                const page = pdfDoc.getPage(i + startPage - 1);
+                const pageNumberText = `${i + 1}`;
+                const {width, height} = page.getSize();
+                const fontSize = 12;
+
+                page.drawText(pageNumberText, {
+                    x: width / 2,
+                    y: 25,
+                    size: fontSize,
+                    color: rgb(0, 0, 0),
+                });
+            }
+
+            const modifiedPdfBytes = await pdfDoc.save();
+            // save to file
+            const blob = new Blob([modifiedPdfBytes], {type: 'application/pdf'});
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = 'output.pdf';
+            link.click();
+
+            // if (response.ok) {
+            //     const blob = await response.blob();
+            //     const objectUrl = URL.createObjectURL(blob);
+            //
+            //     // Trigger the download
+            //     const a = document.createElement('a');
+            //     a.href = objectUrl;
+            //     a.download = 'output.pdf';
+            //     document.body.appendChild(a);
+            //     a.click();
+            //     document.body.removeChild(a);
+            // } else {
+            //     console.error('Error:', response.statusText);
+            // }
         } catch (error) {
             console.error('Error:', error.message);
         }
@@ -85,8 +139,6 @@ const Home = () => {
 Add Page Numbers
 </span>
                     </button>
-
-
 
                 </div>
                 <p className="absolute bottom-0 left-0 p-5 text-blue-500 font-extrabold text-xl md:text-xl">
