@@ -93,11 +93,9 @@ const Home = () => {
                     <div id="col-2" className="px-3 md:px-20 xl:py-64 xl:px-12">
 
                         <div id="cards"
-                             className="rounded-lg flex border py-5 px-6 md:py-8 md:px-16 -mt-6 bg-white xl:-ml-24 xl:pl-8 xl:rounded-xl">
+                             className="rounded-lg flex border py-5 px-6 md:py-8 md:px-16 mt-6 md:mt-12 bg-white xl:pl-8 xl:rounded-xl">
                             <div id="circle" className="w-8 h-8 bg-blue-500 md:w-16 md:h-16 rounded-full"></div>
-                            <p className="pl-4 md:pl-12 text-base pt-1 font-semibold md:text-2xl md:pt-4">Upload
-                                file</p>
-
+                            <p className="pl-4 md:pl-12 text-base pt-1 font-semibold md:text-2xl md:pt-4">Upload file</p>
 
                             <input type="file" name="pdf" id="pdfFile" accept=".pdf" onChange={handleFileChange}
                                    required
@@ -122,13 +120,9 @@ const Home = () => {
 Add Page Numbers
 </span>
                         </button>
-
                     </div>
-                    {/*<p className="absolute bottom-0 left-0 p-5 text-blue-500 font-extrabold text-xl md:text-xl">*/}
-                    {/*    By Vishwa Raviraaj and Shiva Sankar*/}
-                    {/*</p>*/}
                 </div>
-                <footer className="p-6 mt-8 bg-blue-900 text-center text-white">
+                <footer className="p-6 mt-5 bg-blue-900 text-center text-white">
                     <p className="mb-2">By Vishwa Raviraaj and Shiva Sankar</p>
                     <a href="https://github.com/Vishwaraviraaj08/NumifyPDF" className="underline text-white"
                        target="_blank">Please Star me on GitHub🤩</a>
