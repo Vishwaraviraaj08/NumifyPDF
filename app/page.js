@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import {red} from "next/dist/lib/picocolors";
 const { PDFDocument, rgb } = require('pdf-lib');
+import Footer from "./Footer";
 
 const Home = () => {
     const [pdfFile, setPdfFile] = useState(null);
@@ -83,14 +84,14 @@ const Home = () => {
     return (
         <>
             <div>
-                <div id="wrapper" className="grid grid-cols-1 xl:grid-cols-2 xl:h-screen">
+                <div id="wrapper" className="grid grid-cols-1 xl:grid-cols-2 h-[100%]">
                     <div id="col-1" className="bg-blue-900 px-12 pt-32 pb-40 md:px-32 xl:py-64 xl:px-32">
                         <h1 className="text-blue-500 font-extrabold text-4xl md:text-6xl">The <br/>
                             Numify PDF <br/>
                         </h1>
                         <p className="text-white text-normal md:text-3xl pt-3 md:pt-6 font-medium">pageNumberApply()</p>
                     </div>
-                    <div id="col-2" className="px-3 md:px-20 xl:py-64 xl:px-12">
+                    <div id="col-2" className="px-3 md:px-20 xl:py-40 xl:px-12">
 
                         <div id="cards"
                              className="rounded-lg flex border py-5 px-6 md:py-8 md:px-16 mt-6 md:mt-12 bg-white xl:pl-8 xl:rounded-xl">
@@ -122,12 +123,9 @@ Add Page Numbers
                         </button>
                     </div>
                 </div>
-                <footer className="p-6 mt-5 bg-blue-900 text-center text-white">
-                    <p className="mb-2">By <a className={"underline"} href={"https://github.com/Vishwaraviraaj08/"}>Vishwa Raviraaj</a> and <a className={"underline"} href={"https://github.com/shiva1718"}>Shiva Sankar</a></p>
-                    <a href="https://github.com/Vishwaraviraaj08/NumifyPDF" className="underline text-white"
-                       target="_blank">Please Star me on GitHub🤩</a>
-                </footer>
+
             </div>
+            <Footer/>
         </>
 
     );
