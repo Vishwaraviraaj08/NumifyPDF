@@ -21,8 +21,22 @@ server.post('/api/addPageNumbers', upload.single('pdf'), async (req, res) => {
     try {
         const pdfBuffer = req.file.buffer;
         const startPage = parseInt(req.body.startPage) || 1;
-
+        const arr = ["i", "ii", "iii", "iv", "v", "vi", "vii", "viii", "ix", "x"];
         const pdfDoc = await PDFDocument.load(pdfBuffer);
+
+        for (let i = 2; i < startPage - 1; i++) {
+            const page = pdfDoc.getPage(i);
+            const pageNumberText = arr[i - 2];
+            const { width, height } = page.getSize();
+            const fontSize = 12;
+
+            page.drawText(pageNumberText, {
+                x: width / 2,
+                y: 25,
+                size: fontSize,
+                color: rgb(0, 0, 0),
+            });
+        }
 
         for (let i = 0; i < pdfDoc.getPageCount() - startPage + 1; i++) {
             const page = pdfDoc.getPage(i + startPage - 1);
