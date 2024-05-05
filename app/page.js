@@ -48,7 +48,7 @@ const Home = () => {
 
                 page.drawText(pageNumberText, {
                     x: width / 2,
-                    y: 25,
+                    y: 15,
                     size: fontSize,
                     color: rgb(0, 0, 0),
                 });
@@ -62,7 +62,7 @@ const Home = () => {
 
                 page.drawText(pageNumberText, {
                     x: width / 2,
-                    y: 25,
+                    y: 15,
                     size: fontSize,
                     color: rgb(0, 0, 0),
                 });
